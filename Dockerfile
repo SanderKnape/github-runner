@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-ARG GITHUB_RUNNER_VERSION="2.165.2"
+ARG GITHUB_RUNNER_VERSION="2.263.0"
 
 ENV RUNNER_NAME "runner"
 ENV GITHUB_PAT ""
@@ -14,6 +14,7 @@ RUN apt-get update \
         sudo \
         git \
         jq \
+        inetutils-ping \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
@@ -29,4 +30,7 @@ RUN curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNE
 COPY --chown=github:github entrypoint.sh ./entrypoint.sh
 RUN sudo chmod u+x ./entrypoint.sh
 
+RUN curl -Ls https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux -o sops && \
+    chmod u+x ./sops && \
+    sudo mv sops /usr/bin
 ENTRYPOINT ["/home/github/entrypoint.sh"]
