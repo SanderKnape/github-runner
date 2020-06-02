@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM flanksource/build-tools:latest
 
 ARG GITHUB_RUNNER_VERSION="2.263.0"
 
@@ -30,7 +30,4 @@ RUN curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNE
 COPY --chown=github:github entrypoint.sh ./entrypoint.sh
 RUN sudo chmod u+x ./entrypoint.sh
 
-RUN curl -Ls https://github.com/mozilla/sops/releases/download/v3.5.0/sops-v3.5.0.linux -o sops && \
-    chmod u+x ./sops && \
-    sudo mv sops /usr/bin
 ENTRYPOINT ["/home/github/entrypoint.sh"]
