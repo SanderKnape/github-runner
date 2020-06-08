@@ -19,14 +19,32 @@ You can build this image yourself, or use the Docker image from the [Docker Hub]
 
 Register a runner to a repository.
 
-`docker run -e GITHUB_OWNER=username-or-organization -e GITHUB_REPOSITORY=my-repository -e GITHUB_PAT=[PAT] github-runner`
+```sh
+docker run --name github-runner \
+     -e GITHUB_OWNER=username-or-organization \
+     -e GITHUB_REPOSITORY=my-repository \
+     -e GITHUB_PAT=[PAT] \
+     sanderknape/github-runner
+```
 
 Create an organization-wide runner.
 
-`docker run -e GITHUB_OWNER=username-or-organization -e GITHUB_PAT=[PAT] github-runner`
+```sh
+docker run --name github-runner \
+    -e GITHUB_OWNER=username-or-organization \
+    -e GITHUB_PAT=[PAT] \
+    sanderknape/github-runner
+```
 
 Set labels on the runner.
 
-`docker run -e GITHUB_OWNER=username-or-organization -e GITHUB_REPOSITORY=my-repository -e GITHUB_PAT=[PAT] -e RUNNER_LABELS=comma,separated,labels github-runner`
+```sh
+docker run --name github-runner \
+    -e GITHUB_OWNER=username-or-organization \
+    -e GITHUB_REPOSITORY=my-repository \
+    -e GITHUB_PAT=[PAT] \
+    -e RUNNER_LABELS=comma,separated,labels \
+    sanderknape/github-runner
+```
 
 
