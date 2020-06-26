@@ -1,13 +1,11 @@
 FROM debian:buster-slim
 
-ARG GITHUB_RUNNER_VERSION="2.263.0"
-
 ENV RUNNER_NAME "runner"
 ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
 ENV GITHUB_REPOSITORY ""
 ENV RUNNER_WORKDIR "_work"
-ENV RUNNER_LABELS ""
+ENV RUNNER_LABELS "self-hosted"
 
 RUN apt-get update \
     && apt-get install -y \
@@ -24,7 +22,7 @@ RUN apt-get update \
 USER github
 WORKDIR /home/github
 
-RUN curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
+RUN runver=$(curl --silent https://api.github.com/repos/actions/runner/releases/latest | grep '"tag_name":' | cut -d'"' -f4|sed 's/^.//') && echo $runver && curl -Ls https://github.com/actions/runner/releases/download/v$runver/actions-runner-linux-x64-$runver.tar.gz | tar xz \
     && sudo ./bin/installdependencies.sh
 
 COPY --chown=github:github entrypoint.sh ./entrypoint.sh
