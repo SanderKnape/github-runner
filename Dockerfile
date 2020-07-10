@@ -1,6 +1,6 @@
 FROM flanksource/build-tools:latest
 
-ARG GITHUB_RUNNER_VERSION="2.263.0"
+ARG GITHUB_RUNNER_VERSION="2.267.1"
 
 ENV RUNNER_NAME "runner"
 ENV GITHUB_PAT ""
