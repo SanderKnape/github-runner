@@ -12,6 +12,7 @@ RUN apt-get update \
         curl \
         sudo \
         git \
+        net-tools \
         jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
