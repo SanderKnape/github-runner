@@ -23,7 +23,10 @@ RUN apt-get update \
 USER github
 WORKDIR /home/github
 
-RUN runver=$(curl --silent https://api.github.com/repos/actions/runner/releases/latest | grep '"tag_name":' | cut -d'"' -f4|sed 's/^.//') && echo $runver && curl -Ls https://github.com/actions/runner/releases/download/v$runver/actions-runner-linux-x64-$runver.tar.gz | tar xz \
+# runner api is broken, therefore hardcoding the version for now
+#RUN runver=$(curl --silent https://api.github.com/repos/actions/runner/releases/latest | grep '"tag_name":' | cut -d'"' -f4|sed 's/^.//') && echo $runver && curl -Ls https://github.com/actions/runner/releases/download/v$runver/actions-runner-linux-x64-$runver.tar.gz | tar xz \
+#    && sudo ./bin/installdependencies.sh
+RUN runver="2.267.1" && echo $runver && curl -Ls https://github.com/actions/runner/releases/download/v$runver/actions-runner-linux-x64-$runver.tar.gz | tar xz \
     && sudo ./bin/installdependencies.sh
 
 COPY --chown=github:github entrypoint.sh ./entrypoint.sh
