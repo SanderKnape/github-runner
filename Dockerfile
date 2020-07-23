@@ -1,34 +1,59 @@
 FROM debian:buster-slim
 
+ARG GH_RUNNER_VERSION
+ARG DOCKER_COMPOSE_VERSION="1.26.2"
+
 ENV RUNNER_NAME "runner"
 ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
 ENV GITHUB_REPOSITORY ""
 ENV RUNNER_WORKDIR "_work"
 ENV RUNNER_LABELS "self-hosted"
+ENV RUNNER_ALLOW_RUNASROOT=true
 
-RUN apt-get update \
-    && apt-get install -y \
+# Labels.
+LABEL maintainer="github.com/karthick-kk" \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.name="karthickk/github-runner" \
+    org.label-schema.description="Dockerized GitHub Actions runner." \
+    org.label-schema.url="https://github.com/karthick-kk/github-runner" \
+    org.label-schema.vcs-url="https://github.com/karthick-kk/github-runner" \
+    org.label-schema.vendor="Karthick K" \
+    org.label-schema.docker.cmd="docker run -it karthickk/github-runner:latest"
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    apt-get install -y \
         curl \
         sudo \
         git \
         net-tools \
         jq \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
     && usermod -aG sudo github \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER github
-WORKDIR /home/github
+# Install Docker CLI
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 
-RUN runver=$(curl --silent https://api.github.com/repos/actions/runner/releases/latest | grep '"tag_name":' | cut -d'"' -f4|sed 's/^.//') && echo $runver && curl -Ls https://github.com/actions/runner/releases/download/v$runver/actions-runner-linux-x64-$runver.tar.gz | tar xz \
-    && sudo ./bin/installdependencies.sh
-#RUN runver="2.267.1" && echo $runver && curl -Ls https://github.com/actions/runner/releases/download/v$runver/actions-runner-linux-x64-$runver.tar.gz | tar xz \
-#    && sudo ./bin/installdependencies.sh
+# Install Docker-Compose
+RUN curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
 
-COPY --chown=github:github entrypoint.sh ./entrypoint.sh
-RUN sudo chmod u+x ./entrypoint.sh
+RUN usermod -aG docker github
+
+RUN GH_RUNNER_VERSION=${GH_RUNNER_VERSION:-$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | grep tag_name | sed -E 's/.*"v([^"]+)".*/\1/')} \
+    && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
+    && tar -zxf actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
+    && rm -f actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
+    && ./bin/installdependencies.sh \
+    && chown -R root: /home/github \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && apt-get clean
+
+COPY entrypoint.sh /home/github/entrypoint.sh
+RUN chmod +x /home/github/entrypoint.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]

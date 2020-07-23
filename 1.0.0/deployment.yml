@@ -17,9 +17,6 @@ spec:
       containers:
       - name: github-runner
         image: karthickk/github-runner:latest
-        volumeMounts:
-        - name: dockersock
-          mountPath: "/var/run/docker.sock"
         env:
         - name: GITHUB_OWNER
           value: your-organization
@@ -30,7 +27,3 @@ spec:
             secretKeyRef:
               name: my-secret
               key: pat
-      volumes:
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock

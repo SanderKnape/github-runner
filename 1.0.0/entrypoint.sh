@@ -1,20 +1,4 @@
 #!/bin/sh
-
-if [ -z $GITHUB_PAT ]; then
-    echo "Error : You need to set GITHUB_PAT environment variable."
-    exit 1
-fi
-
-if [ -z $GITHUB_REPOSITORY ]; then
-    echo "Error : You need to set the GITHUB_REPOSITORY environment variable."
-    exit 1
-fi
-
-if [ -z $GITHUB_OWNER ]; then
-    echo "Error : You need to set the GITHUB_OWNER environment variable."
-    exit 1
-fi
-
 registration_url="https://github.com/${GITHUB_OWNER}"
 if [ -z "${GITHUB_REPOSITORY}" ]; then
     token_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
