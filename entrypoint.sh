@@ -5,11 +5,6 @@ if [ -z $GITHUB_PAT ]; then
     exit 1
 fi
 
-if [ -z $GITHUB_REPOSITORY ]; then
-    echo "Error : You need to set the GITHUB_REPOSITORY environment variable."
-    exit 1
-fi
-
 if [ -z $GITHUB_OWNER ]; then
     echo "Error : You need to set the GITHUB_OWNER environment variable."
     exit 1
