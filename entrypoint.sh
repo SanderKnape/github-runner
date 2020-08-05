@@ -39,6 +39,6 @@ remove() {
 trap 'remove; exit 130' INT
 trap 'remove; exit 143' TERM
 
-./runsvc.sh "$*" &
+bin/runsvc.sh "$*" &
 
 wait $!
