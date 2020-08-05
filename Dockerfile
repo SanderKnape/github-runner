@@ -11,7 +11,7 @@ ENV RUNNER_WORKDIR "_work"
 ENV RUNNER_LABELS "self-hosted"
 ENV RUNNER_ALLOW_RUNASROOT=true
 
-# Labels.
+# Labels
 LABEL maintainer="github.com/karthick-kk" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.build-date=$BUILD_DATE \
