@@ -25,6 +25,7 @@ LABEL maintainer="github.com/karthick-kk" \
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
+        iputils-ping \
         curl \
         sudo \
         git \
