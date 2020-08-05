@@ -45,7 +45,7 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-c
 RUN usermod -aG docker github
 
 #RUN GH_RUNNER_VERSION=${GH_RUNNER_VERSION:-$(curl --silent "https://api.github.com/repos/actions/runner/releases/latest" | grep tag_name | sed -E 's/.*"v([^"]+)".*/\1/')} \
-RUN GH_RUNNER_VERSION="2.272.0"
+RUN GH_RUNNER_VERSION="2.272.0" \
     && curl -L -O https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && tar -zxf actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
     && rm -f actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz \
