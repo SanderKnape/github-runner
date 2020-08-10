@@ -22,7 +22,10 @@ export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
     --replace
 
 remove() {
-    ./config.sh remove --unattended --token "${RUNNER_TOKEN}"
+    payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url%/registration-token}/remove-token)
+    export REMOVE_TOKEN=$(echo $payload | jq .token --raw-output)
+
+    ./config.sh remove --unattended --token "${REMOVE_TOKEN}"
 }
 
 trap 'remove; exit 130' INT
