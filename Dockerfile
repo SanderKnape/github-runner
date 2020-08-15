@@ -7,6 +7,7 @@ ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
 ENV GITHUB_REPOSITORY ""
 ENV RUNNER_WORKDIR "_work"
+ENV RUNNER_LABELS ""
 
 RUN apt-get update \
     && apt-get install -y \
@@ -14,7 +15,7 @@ RUN apt-get update \
         sudo \
         git \
         jq \
-        inetutils-ping \
+        iputils-ping \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
