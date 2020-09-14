@@ -25,4 +25,8 @@ jobs:
           if [ "$CURRENT_GH_RUNNER_VERSION" != "$NEW_GH_RUNNER_VERSION" ]
           then
             echo "Newer runner version detected"
+            sed -i -e "s/^RUN GH_RUNNER_VERSION.*$/RUN GH_RUNNER_VERSION=\"$NEW_GH_RUNNER_VERSION\"/" Dockerfile
           fi
+      - uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
