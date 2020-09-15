@@ -1,6 +1,5 @@
 FROM debian:buster-slim
 
-ENV RUNNER_NAME "runner"
 ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
 ENV GITHUB_REPOSITORY ""

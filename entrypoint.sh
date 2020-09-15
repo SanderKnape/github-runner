@@ -12,8 +12,12 @@ echo "Requesting token at '${token_url}'"
 payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
 export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
 
+if [ -z "${RUNNER_NAME}" ]; then
+    RUNNER_NAME=$(hostname)
+fi
+
 ./config.sh \
-    --name $(hostname) \
+    --name ${RUNNER_NAME} \
     --token ${RUNNER_TOKEN} \
     --url ${registration_url} \
     --work ${RUNNER_WORKDIR} \
