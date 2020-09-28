@@ -17,11 +17,11 @@ if [ -z "${RUNNER_NAME}" ]; then
 fi
 
 ./config.sh \
-    --name ${RUNNER_NAME} \
-    --token ${RUNNER_TOKEN} \
-    --url ${registration_url} \
-    --work ${RUNNER_WORKDIR} \
-    --labels ${RUNNER_LABELS} \
+    --name "${RUNNER_NAME}" \
+    --token "${RUNNER_TOKEN}" \
+    --url "${registration_url}" \
+    --work "${RUNNER_WORKDIR}" \
+    --labels "${RUNNER_LABELS}" \
     --unattended \
     --replace
 
