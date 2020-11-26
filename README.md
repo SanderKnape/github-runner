@@ -14,6 +14,7 @@ You can build this image yourself, or use the Docker image from the [Docker Hub]
 * Organizational runners
 * Labels
 * Graceful shutdown
+* Auto-update after the release of a new version
 
 ## Examples
 

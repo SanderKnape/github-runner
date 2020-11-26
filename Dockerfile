@@ -26,7 +26,7 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
     && curl -Ls https://github.com/actions/runner/releases/download/v${GITHUB_RUNNER_VERSION}/actions-runner-linux-x64-${GITHUB_RUNNER_VERSION}.tar.gz | tar xz \
     && sudo ./bin/installdependencies.sh
 
-COPY --chown=github:github entrypoint.sh ./entrypoint.sh
-RUN sudo chmod u+x ./entrypoint.sh
+COPY --chown=github:github entrypoint.sh runsvc.sh ./
+RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
