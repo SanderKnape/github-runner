@@ -18,11 +18,19 @@ RUN apt-get update \
         iputils-ping \
         unzip \
         wget \
+	nodejs \
+	npm \
+	apt-utils \
+	pkg-config \
+	openssl \
+	libssl-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
     && usermod -aG sudo github \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+RUN npm install npm@latest -g
 
 RUN ARCH=$(lscpu | grep Architecture | tr -d ' ' | cut -d : -f 2) \
         && set -x \
