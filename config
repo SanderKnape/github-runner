@@ -1,0 +1,6 @@
+[build]
+rustc-wrapper = "/home/github/.cargo/bin/sccache"
+
+rustflags = [
+  "-C", "link-arg=-fuse-ld=lld",
+]

@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM ubuntu:20.04
 
 ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
@@ -10,6 +10,9 @@ ENV DOCKER_BUCKET get.docker.com
 ENV DOCKER_VERSION 19.03.6
 
 ENV DOTNET_SDK_VERSION=5.0
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Berlin
 
 RUN apt-get update \
     && apt-get install -y \
@@ -30,7 +33,9 @@ RUN apt-get update \
 	zip \
 	libc6 \
 	libgcc1 \
-	libicu63 \
+	libicu66 \
+	clang \
+	lld \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
@@ -60,8 +65,10 @@ RUN ./dotnet-install.sh -c ${DOTNET_SDK_VERSION} -InstallDir /usr/share/dotnet/ 
 USER github
 WORKDIR /home/github
 
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --default-toolchain=nightly && echo 'source $HOME/.cargo/env' >> $HOME/.bashr
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y --default-toolchain=nightly
 ENV PATH="$HOME/.cargo/bin:${PATH}"
+RUN $HOME/.cargo/bin/cargo install sccache
+ADD ./config /home/github/.cargo/config
 
 RUN ARCH=$(lscpu | grep Architecture | tr -d ' ' | cut -d : -f 2) \
         && if [ $ARCH != "aarch64" ]; then ARCH=x64; else ARCH=arm64; fi \
