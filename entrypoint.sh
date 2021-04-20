@@ -1,8 +1,10 @@
 #!/bin/sh
 
-echo "Install additional packages: ${ADDITIONAL_PACKAGES}"
-
-sudo apt-get update && sudo apt-get install -y ${ADDITIONAL_PACKAGES} && sudo apt-get clean
+if [ -n "${ADDITIONAL_PACKAGES}" ]; then
+    TO_BE_INSTALLED=$(echo ${ADDITIONAL_PACKAGES} | tr "," " " )
+    echo "Installing additional packages: ${TO_BE_INSTALLED}"
+    sudo apt-get update && sudo apt-get install -y ${TO_BE_INSTALLED} && sudo apt-get clean
+fi
 
 registration_url="https://github.com/${GITHUB_OWNER}"
 if [ -z "${GITHUB_REPOSITORY}" ]; then

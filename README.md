@@ -16,6 +16,7 @@ You can build this image yourself, or use the Docker image from the [Docker Hub]
 * Organizational runners
 * Labels
 * Graceful shutdown
+* Support for installing additional debian packages
 * Auto-update after the release of a new version
 
 ## Examples
@@ -50,4 +51,13 @@ docker run --name github-runner \
     sanderknape/github-runner
 ```
 
+Install additional tools on the runner.
 
+```sh
+docker run --name github-runner \
+    -e GITHUB_OWNER=username-or-organization \
+    -e GITHUB_REPOSITORY=my-repository \
+    -e GITHUB_PAT=[PAT] \
+    -e ADDITIONAL_PACKAGES=firefox-esr,chromium \
+    sanderknape/github-runner
+```
