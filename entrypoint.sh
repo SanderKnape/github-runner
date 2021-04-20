@@ -1,4 +1,9 @@
 #!/bin/sh
+
+echo "Install additional packages: ${ADDITIONAL_PACKAGES}"
+
+sudo apt-get update && sudo apt-get install -y ${ADDITIONAL_PACKAGES} && sudo apt-get clean
+
 registration_url="https://github.com/${GITHUB_OWNER}"
 if [ -z "${GITHUB_REPOSITORY}" ]; then
     token_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
