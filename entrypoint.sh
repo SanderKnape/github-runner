@@ -1,4 +1,11 @@
 #!/bin/sh
+
+if [ -n "${ADDITIONAL_PACKAGES}" ]; then
+    TO_BE_INSTALLED=$(echo ${ADDITIONAL_PACKAGES} | tr "," " " )
+    echo "Installing additional packages: ${TO_BE_INSTALLED}"
+    sudo apt-get update && sudo apt-get install -y ${TO_BE_INSTALLED} && sudo apt-get clean
+fi
+
 registration_url="https://github.com/${GITHUB_OWNER}"
 if [ -z "${GITHUB_REPOSITORY}" ]; then
     token_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
