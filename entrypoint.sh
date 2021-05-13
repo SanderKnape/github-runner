@@ -1,14 +1,9 @@
 #!/bin/sh
 
 if [ -n "${ADDITIONAL_PACKAGES}" ]; then
-    if [ $(id -u) = 0 ]; then
-        TO_BE_INSTALLED=$(echo ${ADDITIONAL_PACKAGES} | tr "," " " )
-        echo "Installing additional packages: ${TO_BE_INSTALLED}"
-        sudo apt-get update && sudo apt-get install -y ${TO_BE_INSTALLED} && sudo apt-get clean
-    else
-        echo "ERROR: Need to run as 'root' to install additional packages"
-    fi
-
+    TO_BE_INSTALLED=$(echo ${ADDITIONAL_PACKAGES} | tr "," " " )
+    echo "Installing additional packages: ${TO_BE_INSTALLED}"
+    sudo apt-get update && sudo apt-get install -y ${TO_BE_INSTALLED} && sudo apt-get clean
 fi
 
 registration_url="https://github.com/${GITHUB_OWNER}"
