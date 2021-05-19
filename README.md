@@ -31,6 +31,16 @@ docker run --name github-runner \
      sanderknape/github-runner
 ```
 
+Register a runner with github token.
+
+```sh
+docker run --name github-runner \
+     -e GITHUB_OWNER=username-or-organization \
+     -e GITHUB_REPOSITORY=my-repository \
+     -e GITHUB_TOKEN=[github.token] \
+     sanderknape/github-runner
+```
+
 Create an organization-wide runner.
 
 ```sh
