@@ -4,7 +4,7 @@
 
 This repository contains a Dockerfile that builds a Docker image suitable for running a [self-hosted GitHub runner](https://sanderknape.com/2020/03/self-hosted-github-actions-runner-kubernetes/). A Kubernetes Deployment file is also included that you can use as an example on how to deploy this container to a Kubernetes cluster.
 
-You can build this image yourself, or use the Docker image from the [Docker Hub](https://hub.docker.com/repository/docker/sanderknape/github-runner/general).
+You can build this image yourself, or use the Docker image from the [Docker Hub](https://hub.docker.com/r/sanderknape/github-runner).
 
 ## Building the container
 
